@@ -9,18 +9,16 @@ import java.awt.event.ActionListener;
 public class Form extends JFrame {
 
     int counter = 0;        // zmienna liczy, który ekran powinien zostać wyświetlony
-    JTextField data = new JTextField();     // pole do wpisywania wartości
+    JTextField data = new JTextField();     // pole do wpisywania danych
     JLabel label, lastName, address, number, warning;
     JButton nextStepBTN, prevStepBTN;
 
     public Form()
     {
-
         setLayout(null);
         setSize(380, 280);
         init();
         setVisible(true);
-
     }
 
     public static void main(String[] args)
@@ -31,7 +29,7 @@ public class Form extends JFrame {
 
     public void init()
     {
-        label = new JLabel("First Name: ");
+        label = new JLabel("First name: ");
         label.setBounds(50, 50, 250, 25);
         add(label);
 
@@ -65,14 +63,14 @@ public class Form extends JFrame {
         add(prevStepBTN);
     }
 
-    private void nextStep()             // funkcja wyświelta odpowiedni ekran w zależności od zmiennej counter
+    private void nextStep()             // metoda wyświelta odpowiedni ekran w zależności od zmiennej counter
     {
         if (counter==0)
         {
             if(validateData(data.getText()))
             {
                 Person.setFirstName(data.getText());
-                label.setText("Last Name");
+                label.setText("Last name");
                 data.setText(Person.getLastName());
                 setWarning("");
                 counter++;
@@ -139,25 +137,39 @@ public class Form extends JFrame {
     {
         if (counter==1)
         {
-            Person.setLastName(data.getText());
-            label.setText("First Name");
-            data.setText(Person.getFirstName());
-            counter--;
+            if(validateData(data.getText()))
+            {
+                Person.setLastName(data.getText());
+                label.setText("First Name");
+                data.setText(Person.getFirstName());
+                setWarning("");
+                counter--;
+            } else
+            {
+                setWarning("Last name cannot be empty");
+            }
         } else if (counter==2)
         {
-            Person.setAddress((data.getText()));
-            label.setText("Last name");
-            data.setText(Person.getLastName());
-            counter--;
+            if(validateData(data.getText()))
+            {
+                Person.setAddress((data.getText()));
+                label.setText("Last name");
+                data.setText(Person.getLastName());
+                setWarning("");
+                counter--;
+            } else
+            {
+                setWarning("Address cannot be empty");
+            }
         } else if(counter==3)
         {
-            try {                                                              // wykonuje się jeśli podany number jest liczbą
+            try {                                                       // wykonuje się jeśli podany number jest liczbą
                 Person.setNumber(Integer.parseInt(data.getText()));
                 label.setText("Address");
                 data.setText(Person.getAddress());
                 warning.setVisible(false);
                 counter--;
-            } catch (NumberFormatException e)                                   // wyświetla informację o błędzie jeśli podano numer w złym formacie
+            } catch (NumberFormatException e)                            // wyświetla informację o błędzie jeśli podano numer w złym formacie
             {
                 warning.setText("Number may contain only digit from 0 to 9 ");
                 warning.setVisible(true);
@@ -167,13 +179,13 @@ public class Form extends JFrame {
         }
     }
 
-    private boolean validateData(String s)
+    private boolean validateData(String s)                      // metoda sprawdzająca czy pole nie jest puste
     {
         if(s.isEmpty()) return false;
         return true;
     }
 
-    private void setWarning(String s)
+    private void setWarning(String s)                           // metoda ustawiająca lub usuwająca ostrzeżenie
     {
         if(s.isEmpty())
         {

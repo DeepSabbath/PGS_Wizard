@@ -3,9 +3,9 @@
  */
 public class Person {
 
-    private static String firstName = "";
-    private static String lastName = "";
-    private static String address = "";
+    private static String firstName;
+    private static String lastName;
+    private static String address;
     private static int number;
 
     public static String getFirstName() {return firstName;};
@@ -13,7 +13,7 @@ public class Person {
         Person.firstName = firstname;
     }
 
-    public static String getLastName() {return lastName;};
+    public static String getLastName() {return lastName;}
 
     public static void setLastName(String lastname) {
         Person.lastName = lastname;
