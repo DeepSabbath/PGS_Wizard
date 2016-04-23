@@ -9,14 +9,16 @@ import java.awt.event.ActionListener;
 public class Form extends JFrame {
 
     int counter = 0;        // zmienna liczy, który ekran powinien zostać wyświetlony
-    JTextField data = new JTextField();     // pole do wpisywania danych
-    JLabel label, lastName, address, number, warning;
+    JTextField data = new JTextField();     // pole do wpisywania danych (oprócz ulicy)
+    JTextField data2 = new JTextField();     // pole do wpisywania danych (ulica)
+    JLabel label, lastName, address, number, warning, street;
     JButton nextStepBTN, prevStepBTN;
 
     public Form()
     {
         setLayout(null);
         setSize(380, 280);
+        setLocation(getCenter());
         init();
         setVisible(true);
     }
@@ -37,9 +39,17 @@ public class Form extends JFrame {
         data.setBounds(150, 50, 100, 25);
         add(data);
 
+        data2.setBounds(150, 80, 100, 25);
+        data2.setVisible(false);
+        add(data2);
+
+        street = new JLabel();
+        street.setBounds(50, 80, 250, 25);
+        add(street);
+
         warning = new JLabel();
         warning.setForeground(Color.red);
-        warning.setBounds(50,100,250,25);
+        warning.setBounds(50,110,250,25);
         add(warning);
 
         nextStepBTN = new JButton("Next");              //button odpalający następny ekran
@@ -67,7 +77,7 @@ public class Form extends JFrame {
     {
         if (counter==0)
         {
-            if(validateData(data.getText()))
+            if(validateData(data.getText()))            //metoda validateData zwraca true jeżeli pole zostało wypełnione
             {
                 Person.setFirstName(data.getText());
                 label.setText("Last name");
@@ -83,9 +93,13 @@ public class Form extends JFrame {
             if(validateData(data.getText()))
             {
                 Person.setLastName(data.getText());
-                label.setText("Address");
-                data.setText(Person.getAddress());
+                label.setText("City");
+                street.setText("Street");
+                data.setText(Person.getCity());
+                data2.setText(Person.getStreet());
                 setWarning("");
+                street.setVisible(true);
+                data2.setVisible(true);
                 counter++;
             } else
             {
@@ -93,16 +107,19 @@ public class Form extends JFrame {
             }
         } else if(counter==2)
         {
-            if(validateData(data.getText()))
+            if(validateData(data.getText()) && validateData(data2.getText()))
             {
-                Person.setAddress(data.getText());
+                Person.setCity(data.getText());
+                Person.setStreet(data2.getText());
+                data2.setVisible(false);
+                street.setVisible(false);
                 label.setText("Phone number");
                 data.setText((String.valueOf(Person.getNumber())));
                 setWarning("");
                 counter++;
             } else
             {
-                setWarning("Address cannot be empty");
+                setWarning("Street and city cannot be empty");
             }
         }else
         {
@@ -114,7 +131,7 @@ public class Form extends JFrame {
                 lastName = new JLabel("Last name: " + Person.getLastName());
                 lastName.setBounds(50, 70, 250, 25);
                 add(lastName);
-                address = new JLabel("Address: " + Person.getAddress());
+                address = new JLabel("Address: " + Person.getStreet() + "  " + Person.getCity());
                 address.setBounds(50, 90, 250, 25);
                 add(address);
                 number = new JLabel("Phone number: " + String.valueOf(Person.getNumber()));
@@ -125,8 +142,7 @@ public class Form extends JFrame {
                 repaint();
             } catch (NumberFormatException e)                       // wyświetla informację o błędzie jeśli podano numer w złym formacie
             {
-                warning.setText("Number may contain only digit from 0 to 9 ");
-                warning.setVisible(true);
+                setWarning("Number may contain only digit from 0 to 9 ");
                 add(warning);
                 repaint();
             }
@@ -150,29 +166,35 @@ public class Form extends JFrame {
             }
         } else if (counter==2)
         {
-            if(validateData(data.getText()))
+            if(validateData(data.getText())&&validateData(data2.getText()))
             {
-                Person.setAddress((data.getText()));
+                Person.setCity((data.getText()));
+                Person.setStreet(data2.getText());
                 label.setText("Last name");
                 data.setText(Person.getLastName());
+                data2.setVisible(false);
+                street.setVisible(false);
                 setWarning("");
                 counter--;
             } else
             {
-                setWarning("Address cannot be empty");
+                setWarning("Street and city cannot be empty");
             }
         } else if(counter==3)
         {
             try {                                                       // wykonuje się jeśli podany number jest liczbą
                 Person.setNumber(Integer.parseInt(data.getText()));
-                label.setText("Address");
-                data.setText(Person.getAddress());
-                warning.setVisible(false);
+                label.setText("City");
+                street.setText("Street");
+                data.setText(Person.getCity());
+                data2.setText(Person.getStreet());
+                street.setVisible(true);
+                data2.setVisible(true);
+                setWarning("");
                 counter--;
             } catch (NumberFormatException e)                            // wyświetla informację o błędzie jeśli podano numer w złym formacie
             {
-                warning.setText("Number may contain only digit from 0 to 9 ");
-                warning.setVisible(true);
+                setWarning("Number may contain only digit from 0 to 9 ");
                 add(warning);
                 repaint();
             }
@@ -196,5 +218,19 @@ public class Form extends JFrame {
             warning.setVisible(true);
         }
         repaint();
+    }
+
+    private Point getCenter()                                   // metoda wyliczająca środek ekranu
+    {
+        int width=Toolkit.getDefaultToolkit().getScreenSize().width;
+        int height=Toolkit.getDefaultToolkit().getScreenSize().height;
+
+        int xCenter=(width - 380)/2;
+        int yCenter=(height - 280)/2;
+
+        Point p =new Point();
+        p.setLocation(xCenter, yCenter);
+
+        return p;
     }
 }
