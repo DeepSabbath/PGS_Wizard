@@ -13,6 +13,7 @@ public class Form extends JFrame {
     JTextField data2 = new JTextField();     // pole do wpisywania danych (ulica)
     JLabel label, lastName, address, number, warning, street;
     JButton nextStepBTN, prevStepBTN;
+    Person person = new Person();
 
     public Form()
     {
@@ -35,7 +36,7 @@ public class Form extends JFrame {
         label.setBounds(50, 50, 250, 25);
         add(label);
 
-        data.setText(Person.getFirstName());
+        data.setText(person.getFirstName());
         data.setBounds(150, 50, 100, 25);
         add(data);
 
@@ -79,9 +80,9 @@ public class Form extends JFrame {
         {
             if(validateData(data.getText()))            //metoda validateData zwraca true jeżeli pole zostało wypełnione
             {
-                Person.setFirstName(data.getText());
+                person.setFirstName(data.getText());
                 label.setText("Last name");
-                data.setText(Person.getLastName());
+                data.setText(person.getLastName());
                 setWarning("");
                 counter++;
             } else
@@ -92,11 +93,11 @@ public class Form extends JFrame {
         {
             if(validateData(data.getText()))
             {
-                Person.setLastName(data.getText());
+                person.setLastName(data.getText());
                 label.setText("City");
                 street.setText("Street");
-                data.setText(Person.getCity());
-                data2.setText(Person.getStreet());
+                data.setText(person.getCity());
+                data2.setText(person.getStreet());
                 setWarning("");
                 street.setVisible(true);
                 data2.setVisible(true);
@@ -109,12 +110,12 @@ public class Form extends JFrame {
         {
             if(validateData(data.getText()) && validateData(data2.getText()))
             {
-                Person.setCity(data.getText());
-                Person.setStreet(data2.getText());
+                person.setCity(data.getText());
+                person.setStreet(data2.getText());
                 data2.setVisible(false);
                 street.setVisible(false);
                 label.setText("Phone number");
-                data.setText((String.valueOf(Person.getNumber())));
+                data.setText((String.valueOf(person.getNumber())));
                 setWarning("");
                 counter++;
             } else
@@ -124,17 +125,17 @@ public class Form extends JFrame {
         }else
         {
             try {                                                  // wykonuje się jeśli podany number jest liczbą
-                Person.setNumber(Integer.parseInt(data.getText()));
+                person.setNumber(Integer.parseInt(data.getText()));
                 remove(data);
-                label.setText("First name: " + Person.getFirstName());
+                label.setText("First name: " + person.getFirstName());
                 warning.setVisible(false);
-                lastName = new JLabel("Last name: " + Person.getLastName());
+                lastName = new JLabel("Last name: " + person.getLastName());
                 lastName.setBounds(50, 70, 250, 25);
                 add(lastName);
-                address = new JLabel("Address: " + Person.getStreet() + "  " + Person.getCity());
+                address = new JLabel("Address: " + person.getStreet() + "  " + person.getCity());
                 address.setBounds(50, 90, 250, 25);
                 add(address);
-                number = new JLabel("Phone number: " + String.valueOf(Person.getNumber()));
+                number = new JLabel("Phone number: " + String.valueOf(person.getNumber()));
                 number.setBounds(50, 110, 250, 25);
                 add(number);
                 remove(nextStepBTN);
@@ -155,9 +156,9 @@ public class Form extends JFrame {
         {
             if(validateData(data.getText()))
             {
-                Person.setLastName(data.getText());
+                person.setLastName(data.getText());
                 label.setText("First Name");
-                data.setText(Person.getFirstName());
+                data.setText(person.getFirstName());
                 setWarning("");
                 counter--;
             } else
@@ -168,10 +169,10 @@ public class Form extends JFrame {
         {
             if(validateData(data.getText())&&validateData(data2.getText()))
             {
-                Person.setCity((data.getText()));
-                Person.setStreet(data2.getText());
+                person.setCity((data.getText()));
+                person.setStreet(data2.getText());
                 label.setText("Last name");
-                data.setText(Person.getLastName());
+                data.setText(person.getLastName());
                 data2.setVisible(false);
                 street.setVisible(false);
                 setWarning("");
@@ -183,11 +184,11 @@ public class Form extends JFrame {
         } else if(counter==3)
         {
             try {                                                       // wykonuje się jeśli podany number jest liczbą
-                Person.setNumber(Integer.parseInt(data.getText()));
+                person.setNumber(Integer.parseInt(data.getText()));
                 label.setText("City");
                 street.setText("Street");
-                data.setText(Person.getCity());
-                data2.setText(Person.getStreet());
+                data.setText(person.getCity());
+                data2.setText(person.getStreet());
                 street.setVisible(true);
                 data2.setVisible(true);
                 setWarning("");

@@ -3,38 +3,38 @@
  */
 public class Person {
 
-    private static String firstName;
-    private static String lastName;
-    private static String city;
-    private static String street;
-    private static int number;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String street;
+    private int number;
 
-    public static String getFirstName() {return firstName;}
-    public static void setFirstName(String firstname) {
-        Person.firstName = firstname;
+    public String getFirstName() {return firstName;}
+    public void setFirstName(String firstname) {
+        this.firstName = firstname;
     }
 
-    public static String getLastName() {return lastName;}
-    public static void setLastName(String lastname) {
-        Person.lastName = lastname;
+    public String getLastName() {return lastName;}
+    public void setLastName(String lastname) {
+        this.lastName = lastname;
     }
 
-    public static String getCity() {
+    public String getCity() {
         return city;
     }
-    public static void setCity(String city) {
-        Person.city = city;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public static int getNumber() {return number;}
-    public static void setNumber(int number) {
-        Person.number = number;
+    public int getNumber() {return number;}
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public static String getStreet() {
+    public String getStreet() {
         return street;
     }
-    public static void setStreet(String street) {
-        Person.street = street;
+    public void setStreet(String street) {
+        this.street = street;
     }
 }
